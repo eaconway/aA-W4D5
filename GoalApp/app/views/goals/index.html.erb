@@ -1,0 +1,11 @@
+<h1>ALL GOALS</h1>
+
+<a href=" <%= new_goal_url %>"> Add a new goal!</a><br>
+
+<% @goals.each do |goal| %>
+  <% if goal.state == 'public' %>
+    <li><%= goal.title %></li><br>
+    <a href=" <%= edit_goal_url(goal) %>">Edit goal </a>
+    <%= delete_goal(goal) %>
+  <% end %>
+<% end %>

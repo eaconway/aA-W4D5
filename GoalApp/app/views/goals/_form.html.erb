@@ -1,0 +1,41 @@
+<% if type == :new %>
+  <% button_msg = "Create new goal" %>
+  <% action_url = goals_url %>
+  <% headed_line_text = "Create a new goal!" %>
+<% elsif type == :edit %>
+  <% button_msg = "Edit this goal" %>
+  <% action_url = goal_url(goal) %>
+  <% headed_line_text = "Edit this goal" %>
+<% end %>
+
+<h2> <%= headed_line_text %></h2>
+
+<form action="<%= action_url %>" method="post">
+  <%= auth_token %>
+  
+  <% if type == :edit %>
+    <input type="hidden" name="_method" value="patch">
+  <% end %>
+  
+  <label for="title">Title:</label>
+  <input type="text" id='title' name="goal[title]" value="<%= goal.title %>">
+  <br>
+  
+  <label for=""></label>
+  <select class="" name="goal[user_id]">
+    <% User.all.each do |user| %>
+      <option value="<%= user.id %>"  <%= 'selected' if goal.user_id = user.id %>>
+         <%= user.email %></option>
+    <% end %>
+  </select>
+  <br>
+  
+  <label for="state">State:</label><br>
+  <% Goal.states.each do|state| %>
+    <input type="radio" id='state' name="goal[state]" 
+      value="<%= state %>"  <%= 'checked' if goal.state == state %> ><%= state %>
+  <% end %>
+  <br>
+  
+  <input type="submit" name="submit" value="<%=button_msg %>">
+</form>
